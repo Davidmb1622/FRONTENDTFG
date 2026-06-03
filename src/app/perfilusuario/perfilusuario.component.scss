@@ -1,0 +1,106 @@
+.perfil-page {
+  --background: #f5f5f5;
+}
+
+.perfil-container {
+  display: flex;
+  max-width: 1200px;
+  margin: 100px auto;
+  gap: 40px;
+}
+
+.perfil-sidebar {
+  width: 250px;
+}
+
+.perfil-sidebar h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.perfil-sidebar .email {
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.perfil-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.perfil-sidebar nav a {
+  font-size: 13px;
+  cursor: pointer;
+  color: #555;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.perfil-sidebar nav a:hover {
+  color: black;
+}
+
+.perfil-sidebar nav a.active {
+  font-weight: 600;
+  color: black;
+}
+
+.logout {
+  margin-top: 20px;
+  font-weight: 600;
+}
+
+
+.perfil-content {
+  flex: 1;
+}
+
+.perfil-content h3 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.perfil-box {
+  background: white;
+  padding: 20px;
+  border: 1px solid #eee;
+}
+
+.pedido-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border: 1px solid #eee;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+.reserva-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border: 1px solid #eee;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+.estado {
+  font-weight: 600;
+}
+
+
+
+.precio {
+  font-weight: bold;
+}
+
+ion-button {
+  --background: black;
+  --color: white;
+  --border-radius: 0;
+  font-size: 12px;
+}

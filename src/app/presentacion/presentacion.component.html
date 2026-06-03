@@ -1,0 +1,72 @@
+<ion-content fullscreen="true">
+
+<div class="hero-slider">
+
+  <div class="slide" [routerLink]="['/iniciopagina']">
+    <img src="assets/img/novedades.jpg" />
+    <div class="overlay">
+      <h1>NOVEDADES</h1>
+    </div>
+  </div>
+
+  <div class="slide" [routerLink]="['/trajes']">
+    <img src="assets/img/productos.jpg" />
+    <div class="overlay">
+      <h1>PRODUCTOS</h1>
+    </div>
+  </div>
+
+  <div class="slide" [routerLink]="['/noticias']">
+    <img src="assets/img/noticias.jpg" />
+    <div class="overlay">
+      <h1>NOTICIAS</h1>
+    </div>
+  </div>
+
+</div>
+<div class="categorias">
+
+  <div class="categoria" [routerLink]="['/eventos/BODA']">
+    <img src="assets/img/boda.jpg">
+    <span>BODA</span>
+  </div>
+
+  <div class="categoria" [routerLink]="['/eventos/FUNERAL']">
+    <img src="assets/img/funeral.jpg">
+    <span>FUNERAL</span>
+  </div>
+
+  <div class="categoria" [routerLink]="['/eventos/FIESTA']">
+    <img src="assets/img/fiesta.jpg">
+    <span>FIESTA</span>
+  </div>
+
+  <div class="categoria" [routerLink]="['/eventos/GALA']">
+    <img src="assets/img/gala.jpg">
+    <span>GALA</span>
+  </div>
+
+</div>
+
+<h2 class="titulo-seccion">NOVEDADES</h2>
+
+<div class="novedades-grid">
+
+  <div
+    class="novedad-card"
+    *ngFor="let producto of novedades"
+    [routerLink]="['/producto', producto.id]"
+  >
+
+    <img [src]="producto.imagenes?.[0]" [alt]="producto.nombre" />
+
+    <div class="info">
+      <span class="tipo">{{ producto.tipo }}</span>
+      <h3>{{ producto.nombre }}</h3>
+      <span class="precio">{{ producto.precio | currency:'EUR' }}</span>
+    </div>
+
+  </div>
+
+</div>
+</ion-content>

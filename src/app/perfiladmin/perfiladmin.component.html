@@ -1,0 +1,264 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Panel Admin</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-accordion-group>
+
+    <ion-accordion value="productos">
+      <ion-item slot="header">
+        <ion-label>Gestionar Productos</ion-label>
+      </ion-item>
+
+      <div class="ion-padding" slot="content">
+
+        <h2>Crear Producto</h2>
+
+        <form (ngSubmit)="crearProducto()">
+
+          <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input [(ngModel)]="producto.nombre" name="nombre"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Descripción</ion-label>
+            <ion-input [(ngModel)]="producto.descripcion" name="descripcion"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Precio</ion-label>
+            <ion-input type="number" [(ngModel)]="producto.precio" name="precio"></ion-input>
+          </ion-item>
+
+          <h3>Imágenes</h3>
+
+          <div *ngFor="let img of producto.imagenes; let i = index">
+
+            <ion-item>
+              <ion-input
+                [(ngModel)]="producto.imagenes[i]"
+                name="imagen{{i}}">
+              </ion-input>
+
+              <ion-button color="danger" (click)="eliminarImagen(i)">
+                X
+              </ion-button>
+            </ion-item>
+
+          </div>
+
+          <ion-button (click)="agregarImagen()">
+            Añadir imagen
+          </ion-button>
+
+          <h3>Tipo de evento</h3>
+          <ion-select multiple [(ngModel)]="producto.tipo" name="tipo">
+            <ion-select-option *ngFor="let t of tipos" [value]="t">
+              {{ t }}
+            </ion-select-option>
+          </ion-select>
+
+          <h3>Colores</h3>
+          <ion-select multiple [(ngModel)]="producto.color" name="color">
+            <ion-select-option *ngFor="let c of colores" [value]="c">
+              {{ c }}
+            </ion-select-option>
+          </ion-select>
+
+          <h3>Tallas</h3>
+          <div *ngFor="let t of tallas">
+            <ion-item>
+              <ion-label>
+                <strong>{{ t }}</strong>: {{ tallasStock[t] || 0 }} unidades
+              </ion-label>
+
+              <ion-input type="number"
+                         [(ngModel)]="tallasStock[t]"
+                         name="talla_{{t}}">
+              </ion-input>
+            </ion-item>
+          </div>
+
+          <h3>Tallas numéricas</h3>
+          <div *ngFor="let tn of tallasNumericas">
+            <ion-item>
+              <ion-label>
+                <strong>{{ tn }}</strong>: {{ tallasNumericasStock[tn] || 0 }} unidades
+              </ion-label>
+
+              <ion-input type="number"
+                         [(ngModel)]="tallasNumericasStock[tn]"
+                         name="tn_{{tn}}">
+              </ion-input>
+            </ion-item>
+          </div>
+
+          <ion-button expand="full" type="submit">
+            Crear producto
+          </ion-button>
+
+        </form>
+
+      </div>
+    </ion-accordion>
+
+
+    <h2>Lista de productos</h2>
+
+    <ion-card *ngFor="let p of productos">
+
+      <ion-card-content>
+
+        <div *ngIf="!productoEditando || productoEditando.id !== p.id">
+
+          <p><strong>{{ p.nombre }}</strong></p>
+          <p>{{ p.descripcion }}</p>
+          <p>{{ p.precio }} €</p>
+
+          <div class="tallas-preview">
+        <span *ngFor="let t of p.tallasStock">
+          {{ t.talla }}: {{ t.stock }} unidades
+        </span>
+          </div>
+
+          <div class="tallas-preview">
+        <span *ngFor="let tn of p.tallasNumericasStock">
+          {{ tn.tallanumerica }}: {{ tn.stock }} unidades
+        </span>
+          </div>
+
+          <ion-button size="small" (click)="editarProducto(p)">
+            Editar
+          </ion-button>
+
+          <ion-button size="small" color="danger" (click)="eliminarProducto(p.id)">
+            Eliminar
+          </ion-button>
+
+        </div>
+
+        <div *ngIf="productoEditando && productoEditando.id === p.id">
+
+          <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input [(ngModel)]="productoEditando.nombre"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Descripción</ion-label>
+            <ion-input [(ngModel)]="productoEditando.descripcion"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Precio</ion-label>
+            <ion-input type="number" [(ngModel)]="productoEditando.precio"></ion-input>
+          </ion-item>
+
+          <ion-button expand="full" (click)="guardarEdicion()">
+            Guardar cambios
+          </ion-button>
+
+          <ion-button expand="full" color="medium" (click)="productoEditando = null">
+            Cancelar
+          </ion-button>
+
+        </div>
+
+      </ion-card-content>
+
+    </ion-card>
+
+    <ion-accordion value="noticias">
+      <ion-item slot="header">
+        <ion-label>Gestionar Noticias</ion-label>
+      </ion-item>
+
+      <div class="ion-padding" slot="content">
+
+        <ion-item>
+          <ion-label position="floating">Título</ion-label>
+          <ion-input [(ngModel)]="nuevaNoticia.titulo"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Contenido</ion-label>
+          <ion-input [(ngModel)]="nuevaNoticia.contenido"></ion-input>
+        </ion-item>
+
+        <ion-button expand="full" (click)="crearNoticia()">
+          Crear Noticia
+        </ion-button>
+
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="pedidos">
+      <ion-item slot="header">
+        <ion-label>Gestionar Pedidos</ion-label>
+      </ion-item>
+
+      <div class="ion-padding" slot="content">
+
+        <ion-card *ngFor="let pedido of pedidos">
+          <ion-card-content>
+
+            <p><strong>ID:</strong> {{ pedido.id }}</p>
+            <p><strong>Usuario:</strong> {{ pedido.emailUsuario }}</p>
+            <p><strong>Estado:</strong> {{ pedido.estado }}</p>
+
+            <ion-select [(ngModel)]="pedido.estado">
+              <ion-select-option value="PENDIENTE">Pendiente</ion-select-option>
+              <ion-select-option value="ENVIADO">Enviado</ion-select-option>
+              <ion-select-option value="ENTREGADO">Entregado</ion-select-option>
+              <ion-select-option value="CANCELADO">Cancelado</ion-select-option>
+            </ion-select>
+
+            <ion-button expand="full" (click)="cambiarEstadoPedido(pedido)">
+              Guardar
+            </ion-button>
+
+          </ion-card-content>
+        </ion-card>
+
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="reservas">
+      <ion-item slot="header">
+        <ion-label>Gestionar Reservas</ion-label>
+      </ion-item>
+
+      <div class="ion-padding" slot="content">
+
+        <ion-card *ngFor="let reserva of reservas">
+          <ion-card-content>
+
+            <p><strong>ID:</strong> {{ reserva.id }}</p>
+            <p><strong>Usuario:</strong> {{ reserva.emailUsuario }}</p>
+            <p><strong>Estado:</strong> {{ reserva.estado }}</p>
+
+            <ion-select [(ngModel)]="reserva.estado">
+              <ion-select-option value="PENDIENTE">Pendiente</ion-select-option>
+              <ion-select-option value="CONFIRMADA">Confirmada</ion-select-option>
+              <ion-select-option value="CANCELADA">Cancelada</ion-select-option>
+            </ion-select>
+
+            <ion-button expand="full" (click)="cambiarEstadoReserva(reserva)">
+              Guardar
+            </ion-button>
+
+          </ion-card-content>
+        </ion-card>
+
+      </div>
+    </ion-accordion>
+
+  </ion-accordion-group>
+
+  <ion-button class="logout" (click)="cerrarSesion()">CERRAR SESIÓN</ion-button>
+
+</ion-content>

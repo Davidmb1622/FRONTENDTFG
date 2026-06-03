@@ -1,0 +1,194 @@
+<ion-content class="perfil-page">
+
+  <div class="perfil-container">
+
+    <aside class="perfil-sidebar">
+      <h2>¡HOLA, {{ usuario.nombre }}!</h2>
+      <p class="email">{{ usuario.email }}</p>
+
+      <nav>
+        <a (click)="seccion = 'pedidos'" [class.active]="seccion==='pedidos'">MIS COMPRAS</a>
+        <a (click)="seccion = 'reservas'" [class.active]="seccion==='reservas'">MIS RESERVAS</a>
+        <a (click)="seccion = 'datos'" [class.active]="seccion==='datos'">MIS DATOS</a>
+        <a (click)="seccion = 'direccion'" [class.active]="seccion==='direccion'">DIRECCIÓN</a>
+        <a (click)="seccion = 'pago'" [class.active]="seccion==='pago'">MÉTODO DE PAGO</a>
+        <a class="logout" (click)="cerrarSesion()">CERRAR SESIÓN</a>
+      </nav>
+    </aside>
+
+    <section class="perfil-content">
+
+      <div *ngIf="seccion==='pedidos'">
+
+        <h3>MIS COMPRAS</h3>
+        <div class="pedido-card" *ngFor="let pedido of pedidos">
+
+          <div class="pedido-info">
+            <h5 [style.color]="'#FF0000'" [style.font-weight]="'bold'">Usted tiene un plazo de 24 horas para cancelar el pedido</h5>
+            <p class="estado">{{ pedido.estado }}</p>
+            <p>{{ pedido.fecha | date }}</p>
+            <p class="pago">{{ pedido.metodoPago }}</p>
+
+            <div class="pedido-item"
+                 *ngFor="let pedidoitem of pedido.items">
+
+              <p class="nombre">
+                {{ pedidoitem.nombreProducto }}
+              </p>
+
+              <p class="talla">
+                Talla: {{ pedidoitem.talla }}
+              </p>
+
+              <p class="color">
+                Color: {{ pedidoitem.color }}
+              </p>
+
+              <p class="cantidad">
+                Cantidad: {{ pedidoitem.cantidad }}
+              </p>
+
+              <p>
+                PRECIO PRODUCTO: {{ pedidoitem.precioUnitario | currency:'EUR' }}
+              </p>
+
+            </div>
+            <p>ENVIO: {{ pedido.envio | currency:'EUR' }}</p>
+
+            <p class="precio">TOTAL: {{ pedido.total | currency:'EUR' }}</p>
+
+
+          </div>
+
+          <div class="pedido-acciones">
+
+            <ion-button
+              size="small"
+              (click)="cancelarPedido(pedido.id)"
+              *ngIf="pedido.estado==='PENDIENTE' && puedeCancelar(pedido.fecha)">
+
+              Cancelar
+
+            </ion-button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div *ngIf="seccion==='reservas'">
+
+        <h3>MIS RESERVAS</h3>
+
+        <p *ngIf="reservas.length === 0">No tienes reservas todavía</p>
+
+        <div class="reserva-card" *ngFor="let reserva of reservas">
+
+          <div class="reserva-info">
+            <p>{{ reserva.fechaHora | date:'medium' }}</p>
+            <p class="estado">{{ reserva.estado }}</p>
+            <p class="producto">
+              {{ reserva.nombreProducto }}
+            </p>
+            <p class="talla">
+              Talla: {{ reserva.talla }}
+            </p>
+          </div>
+
+          <div class="reserva-acciones">
+            <ion-button size="small"
+                        (click)="cancelarReserva(reserva.id)"
+                        *ngIf="reserva.estado==='PENDIENTE'">
+              Cancelar
+            </ion-button>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div *ngIf="seccion==='datos'">
+
+        <h3>MIS DATOS</h3>
+
+        <div class="perfil-box" *ngIf="!editandoDatos">
+          <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+          <p><strong>Email:</strong> {{ usuario.email }}</p>
+          <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
+
+          <ion-button (click)="editandoDatos = true">Editar</ion-button>
+        </div>
+
+        <div *ngIf="editandoDatos">
+          <ion-input [(ngModel)]="usuario.nombre"></ion-input>
+          <ion-input [(ngModel)]="usuario.telefono"></ion-input>
+          <ion-button (click)="guardarPerfil()">Guardar</ion-button>
+          <ion-button color="medium" (click)="editandoDatos = false">Cancelar</ion-button>
+        </div>
+
+      </div>
+
+      <div *ngIf="seccion==='direccion'">
+
+        <h3>DIRECCIÓN</h3>
+
+        <div class="perfil-box">
+
+          <div *ngIf="!editandoDireccion">
+            <p>{{ usuario.direccion }}</p>
+            <ion-button (click)="editandoDireccion = true">Editar</ion-button>
+          </div>
+
+          <div *ngIf="editandoDireccion">
+            <ion-input [(ngModel)]="usuario.direccion"></ion-input>
+
+            <ion-button (click)="guardarPerfil()">Guardar</ion-button>
+            <ion-button color="medium" (click)="editandoDireccion = false">Cancelar</ion-button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div *ngIf="seccion==='pago'">
+
+        <h3>MÉTODO DE PAGO</h3>
+
+        <div class="perfil-box">
+
+          <div *ngIf="!editandoPago">
+            <p>{{ usuario.metodoPago }}</p>
+            <ion-button (click)="editandoPago = true">Editar</ion-button>
+          </div>
+
+          <div *ngIf="editandoPago">
+
+            <ion-radio-group [(ngModel)]="usuario.metodoPago">
+
+              <ion-item>
+                <ion-label>Tarjeta</ion-label>
+                <ion-radio value="TARJETA"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Contrareembolso</ion-label>
+                <ion-radio value="CONTRAREEMBOLSO"></ion-radio>
+              </ion-item>
+
+            </ion-radio-group>
+
+            <ion-button (click)="guardarPerfil()">Guardar</ion-button>
+            <ion-button color="medium" (click)="editandoPago = false">Cancelar</ion-button>
+
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+</ion-content>

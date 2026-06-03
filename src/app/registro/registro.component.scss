@@ -1,0 +1,108 @@
+.auth-page {
+  --background: #fff;
+}
+
+.topbar {
+  width: 100%;
+  height: 64px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.topbar-container {
+  max-width: 1400px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.auth-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.carousel-section {
+  width: 65%;
+  height: 100vh;
+
+  swiper-container {
+    width: 100%;
+    height: 100%;
+  }
+
+  swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+
+.form-section {
+  width: 35%;
+  height: 100vh;
+  background: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+
+
+form {
+  max-width: 320px;
+  width: 100%;
+}
+
+ion-item {
+  margin-bottom: 16px;
+  --highlight-color-focused: transparent;
+}
+
+ion-input {
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.auth-button {
+  margin-top: 20px;
+  height: 44px;
+  font-weight: 600;
+  --background: #000;
+}
+
+.auth-footer {
+  margin-top: 20px;
+  font-size: 14px;
+  a {
+    display: block;
+    margin-top: 5px;
+    font-weight: 600;
+    color: #000;
+    --background: #000;
+    text-decoration: none;
+  }
+}

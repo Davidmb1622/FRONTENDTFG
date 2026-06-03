@@ -35,3 +35,43 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+.custom-toast {
+  --background: rgba(20, 20, 20, 0.92);
+  --color: #ffffff;
+
+  --border-radius: 18px;
+  --box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+
+  --padding-start: 18px;
+  --padding-end: 18px;
+
+  backdrop-filter: blur(10px);
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+  letter-spacing: 0.2px;
+
+  transform: translateY(-10px);
+  animation: toastIn 200ms ease-out;
+}
+
+.custom-toast::part(message) {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.custom-toast::part(icon) {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-10px) scale(1);
+  }
+}

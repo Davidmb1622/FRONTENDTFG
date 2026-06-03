@@ -1,0 +1,34 @@
+<ion-content class="reservas-page">
+
+  <div class="reservas-container">
+
+    <h1 class="titulo">RESERVAR CITA</h1>
+
+    <div class="formulario">
+
+      <div class="campo">
+        <label>Día y hora</label>
+        <ion-datetime
+          presentation="date-time"
+          [(ngModel)]="fechaHora"
+          [min]="minFecha"
+          [hourValues]="horasDisponibles"
+          minuteValues="0"
+        >
+        </ion-datetime>
+      </div>
+
+      <div class="campo">
+        <label>Comentario</label>
+        <ion-textarea [(ngModel)]="comentario"></ion-textarea>
+      </div>
+
+      <ion-button expand="block" class="btn-reservar" (click)="crearReserva()">
+        RESERVAR CITA
+      </ion-button>
+
+    </div>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,41 @@
+<div class="topbar">
+  <div class="topbar-container">
+    <div class="logo">SUITS PEAKS</div>
+  </div>
+</div>
+
+<div class="auth-layout">
+  <div class="carousel-section">
+    <swiper-container loop="true" autoplay="true">
+      <swiper-slide>
+        <img src="assets/img/carrusel1.jpg" />
+      </swiper-slide>
+      <swiper-slide>
+        <img src="assets/img/carrusel2.jpg" />
+      </swiper-slide>
+      <swiper-slide>
+        <img src="assets/img/carrusel3.jpg" />
+      </swiper-slide>
+    </swiper-container>
+  </div>
+
+  <div class="form-section">
+    <div class="login-container">
+      <h2>Código de verificación</h2>
+      <form [formGroup]="form" >
+        <ion-item>
+          <ion-input
+            type="text"
+            placeholder="Introduce el código"
+            formControlName="codigoVerificacion"
+          ></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" class="auth-button" (click)="verificarCodigo()">
+          VERIFICAR
+        </ion-button>
+
+      </form>
+    </div>
+  </div>
+</div>

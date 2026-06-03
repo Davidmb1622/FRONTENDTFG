@@ -1,0 +1,61 @@
+<header class="topbar">
+  <div class="topbar-container">
+
+    <div class="logo"  routerLink="/presentacion">SUITS PEAKS</div>
+
+    <div class="search-box">
+      <ion-icon name="search-outline"></ion-icon>
+
+      <input
+        type="text"
+        placeholder="Buscar aquí"
+        [(ngModel)]="searchText"
+        (keyup.enter)="buscar()"
+      />
+    </div>
+
+    <ion-buttons>
+      <ion-button routerLink="/iniciopagina">Novedades</ion-button>
+      <ion-button routerLink="/trajes">Productos</ion-button>
+
+      <ion-button id="eventos-button">
+        Eventos
+        <ion-icon name="chevron-down-outline"></ion-icon>
+      </ion-button>
+
+      <ion-popover trigger="eventos-button" triggerAction="click">
+        <ng-template>
+          <ion-list>
+            <ion-item routerLink="/eventos/BODA">Boda</ion-item>
+            <ion-item routerLink="/eventos/FUNERAL">Funeral</ion-item>
+            <ion-item routerLink="/eventos/GALA">Gala</ion-item>
+            <ion-item routerLink="/eventos/FIESTA">Fiesta</ion-item>
+          </ion-list>
+        </ng-template>
+      </ion-popover>
+
+      <ion-button routerLink="/noticias">Noticias</ion-button>
+
+      <ion-button routerLink="/carrito" fill="clear" class="icon-button">
+        <ion-icon name="cart-outline"></ion-icon>
+        <ion-badge *ngIf="cantidadCarrito > 0" class="badge-carrito">
+          {{ cantidadCarrito }}
+        </ion-badge>
+      </ion-button>
+
+
+      <ion-button routerLink="/perfil" fill="clear" class="icon-button" *ngIf="!esAdmin()">
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button routerLink="/admin" fill="clear" class="icon-button" *ngIf="esAdmin()">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
+
+    </ion-buttons>
+
+
+
+
+  </div>
+</header>

@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Checkout</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form [formGroup]="checkoutForm">
+
+    <h2>Dirección de envío</h2>
+
+    <div *ngIf="!editandoDireccion">
+      <p><strong>Dirección:</strong> {{ checkoutForm.get('direccion')?.value }}</p>
+
+      <ion-button expand="full" class="btn-outline" (click)="editandoDireccion = true">
+        Editar dirección
+      </ion-button>
+    </div>
+
+    <div *ngIf="editandoDireccion">
+
+    <ion-item>
+      <ion-label position="floating">Calle</ion-label>
+      <ion-input formControlName="calle"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Ciudad</ion-label>
+      <ion-input formControlName="ciudad"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Código Postal</ion-label>
+      <ion-input formControlName="codigoPostal"></ion-input>
+    </ion-item>
+
+      <ion-button expand="full" class="btn-primary" (click)="guardarDireccion()">
+        Guardar
+      </ion-button>
+
+    </div>
+
+    <h2 class="mt">Método de pago</h2>
+
+    <div *ngIf="!editandoPago">
+
+      <p>
+        <strong>Método:</strong>
+        {{ checkoutForm.get('metodoPago')?.value === 'TARJETA' ? 'Tarjeta' : 'Contrareembolso' }}
+      </p>
+
+      <ion-button expand="full" class="btn-outline" (click)="editandoPago = true">
+        Cambiar método de pago
+      </ion-button>
+
+    </div>
+
+    <div *ngIf="editandoPago">
+
+      <ion-radio-group formControlName="metodoPago">
+
+        <ion-item>
+          <ion-label>Tarjeta</ion-label>
+          <ion-radio value="TARJETA"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Contrareembolso</ion-label>
+          <ion-radio value="CONTRA"></ion-radio>
+        </ion-item>
+
+      </ion-radio-group>
+
+      <ion-button expand="full" class="btn-primary" (click)="editandoPago = false">
+        Guardar
+      </ion-button>
+
+    </div>
+
+  </form>
+
+  <h2 class="mt">Resumen</h2>
+
+  <ion-list>
+    <ion-item *ngFor="let item of carrito.items">
+      <ion-label>
+        {{ item.productoNombre }} (x{{ item.cantidad }})
+      </ion-label>
+      <ion-text>
+        {{ item.precioUnitario * item.cantidad | currency:'EUR' }}
+      </ion-text>
+    </ion-item>
+  </ion-list>
+
+  <ion-item>
+    <ion-label>Subtotal</ion-label>
+    <ion-text>{{ total | currency:'EUR' }}</ion-text>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Envío</ion-label>
+    <ion-text>{{ envio | currency:'EUR' }}</ion-text>
+  </ion-item>
+
+  <ion-item>
+    <ion-label><strong>Total</strong></ion-label>
+    <ion-text><strong>{{ totalFinal | currency:'EUR' }}</strong></ion-text>
+  </ion-item>
+
+  <ion-button expand="full" class="btn-primary confirmar" (click)="confirmarPedido()">
+    Confirmar pedido
+  </ion-button>
+
+</ion-content>

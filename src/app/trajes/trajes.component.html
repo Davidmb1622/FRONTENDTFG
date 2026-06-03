@@ -1,0 +1,160 @@
+<div class="productos-layout">
+<main class="contenido">
+  <h2 class="titulo-seccion">Productos</h2>
+
+<div class="productos-listado">
+    <ion-grid>
+      <ion-row>
+        <ion-col
+          size="12"
+          size-md="6"
+          size-lg="3"
+          *ngFor="let producto of todos"
+        >
+          <ion-card class="producto-card" [routerLink]="['/producto', producto.id]">
+          <div class="img-wrapper">
+            <img [src]="producto.imagenes?.[0]" [alt]="producto.nombre" />
+          </div>
+
+          <ion-card-content>
+            <span class="tipo">{{ producto.tipo }}</span>
+            <h3>{{ producto.nombre }}</h3>
+            <p class="descripcion">{{ producto.descripcion }}</p>
+            <span class="precio">{{ producto.precio | currency:'EUR' }}</span>
+          </ion-card-content>
+        </ion-card>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <button class="btn-filtro" (click)="toggleFiltros()" >
+    Filtrar
+  </button>
+
+  <aside class="filtros" *ngIf="mostrarFiltros">
+    <h3>Filtrar</h3>
+
+
+    <ion-select placeholder="Talla" (ionChange)="setFiltro('talla', $event)">
+      <ion-select-option value="XS">XS</ion-select-option>
+      <ion-select-option value="S">S</ion-select-option>
+      <ion-select-option value="M">M</ion-select-option>
+      <ion-select-option value="L">L</ion-select-option>
+      <ion-select-option value="XL">XL</ion-select-option>
+      <ion-select-option value="XXL">XXL</ion-select-option>
+    </ion-select>
+
+    <ion-select placeholder="Tallanumerica" (ionChange)="setFiltro('tallanumerica', $event)">
+      <ion-select-option value="EU36">EU36</ion-select-option>
+      <ion-select-option value="EU38">EU38</ion-select-option>
+      <ion-select-option value="EU40">EU40</ion-select-option>
+      <ion-select-option value="EU42">EU42</ion-select-option>
+      <ion-select-option value="EU44">EU44</ion-select-option>
+      <ion-select-option value="EU46">EU46</ion-select-option>
+      <ion-select-option value="EU48">EU48</ion-select-option>
+      <ion-select-option value="EU50">EU50</ion-select-option>
+      <ion-select-option value="EU52">EU52</ion-select-option>
+      <ion-select-option value="EU54">EU54</ion-select-option>
+      <ion-select-option value="EU56">EU56</ion-select-option>
+      <ion-select-option value="EU58">EU58</ion-select-option>
+    </ion-select>
+
+    <div class="filtro-colores">
+      <h4>Color</h4>
+      <div class="colores-grid">
+        <div
+          *ngFor="let c of colores"
+          class="color-item"
+          [style.background]="c.hex"
+          [class.seleccionado]="colorSeleccionado === c.nombre"
+          (click)="seleccionarColor(c.nombre)">
+        </div>
+      </div>
+    </div>
+
+    <ion-select placeholder="Evento" (ionChange)="setFiltro('tipo', $event)">
+      <ion-select-option value="BODA">BODA</ion-select-option>
+      <ion-select-option value="FUNERAL">FUNERAL</ion-select-option>
+      <ion-select-option value="GALA">GALA</ion-select-option>
+      <ion-select-option value="FIESTA">FIESTA</ion-select-option>
+      <ion-select-option value="FERIA">FERIA</ion-select-option>
+      <ion-select-option value="SEMANA_SANTA">SEMANA SANTA</ion-select-option>
+    </ion-select>
+
+    <ion-select placeholder="Genero" (ionChange)="setFiltro('genero', $event)">
+      <ion-select-option value="HOMBRE">HOMBRE</ion-select-option>
+      <ion-select-option value="MUJER">MUJER</ion-select-option>
+    </ion-select>
+
+
+    <ion-item>
+      <ion-label position="stacked">Precio mínimo</ion-label>
+      <ion-input
+        type="number"
+        placeholder="Ej: 500"
+        (ionChange)="setFiltro('precioMin', $event)">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Precio máximo</ion-label>
+      <ion-input
+        type="number"
+        placeholder="Ej: 2500"
+        (ionChange)="setFiltro('precioMax', $event)">
+      </ion-input>
+    </ion-item>
+
+    <ion-button expand="block" (click)="buscarProductos()">
+      Ver resultados
+    </ion-button>
+
+    <ion-button expand="block" (click)="limpiarFiltros()">
+      Limpiar filtros
+    </ion-button>
+
+    <div class="filtros-header">
+      <span class="cerrar-filtros" (click)="toggleFiltros()">✕</span>
+    </div>
+
+  </aside>
+
+  <div class="chat-boton" (click)="toggleChat()">
+    💬
+  </div>
+
+  <div class="chat-ventana" *ngIf="chatAbierto">
+
+    <div class="chat-header">
+      Asistente virtual
+      <span (click)="toggleChat()">✖</span>
+    </div>
+
+    <div class="chat-mensajes">
+      <div *ngFor="let msg of mensajes"
+           [class.usuario]="msg.tipo==='user'"
+           [class.ia]="msg.tipo==='ia'">
+
+        <div [innerHTML]="msg.texto"></div>
+
+      </div>
+    </div>
+
+    <div class="chat-input">
+
+      <input
+        [(ngModel)]="mensajeUsuario"
+        placeholder="Pregúntame algo..."
+        (keyup.enter)="preguntaollama()"
+      />
+
+      <button (click)="preguntaollama()">Enviar</button>
+
+    </div>
+
+  </div>
+
+</main>
+</div>

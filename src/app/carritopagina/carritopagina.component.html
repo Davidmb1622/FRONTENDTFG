@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mi Carrito</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div *ngIf="carrito.items.length > 0; else carritoVacio">
+
+    <ion-list>
+      <ion-item *ngFor="let item of carrito.items">
+        <ion-label>
+          <h2>{{ item.productoNombre}}</h2>
+          <p>Talla: {{ item.talla }}</p>
+          <p>Precio unitario: {{ item.precioUnitario | currency:'EUR' }}</p>
+        </ion-label>
+
+        <ion-input
+          type="number"
+          [(ngModel)]="item.cantidad"
+          (ionBlur)="actualizarCantidad(item.productoId, item.talla, item.cantidad)"
+          min="1"
+          max="10">
+        </ion-input>
+
+        <ion-button class="btn-delete" fill="clear" (click)="eliminarProducto(item.productoId, item.talla)">
+          Eliminar
+        </ion-button>
+
+      </ion-item>
+    </ion-list>
+
+    <ion-item>
+      <ion-label><strong>Total:</strong></ion-label>
+      <ion-text>{{ total | currency:'EUR' }}</ion-text>
+    </ion-item>
+
+
+    <ion-button expand="full" class="btn-primary" (click)="checkout()">
+      Checkout
+    </ion-button>
+
+
+    <ion-button expand="full" class="btn-secondary" (click)="vaciarCarrito()">
+      Vaciar carrito
+    </ion-button>
+
+
+  </div>
+
+  <ng-template #carritoVacio>
+    <h2 class="texto-carrito">No hay productos en el carrito</h2>
+  </ng-template>
+
+</ion-content>

@@ -1,0 +1,108 @@
+<ion-content class="product-detail">
+
+
+  <div class="detail-container" *ngIf="producto">
+
+    <div class="image-section">
+
+      <swiper-container
+        #swiperRef
+        *ngIf="producto?.imagenes?.length"
+        pagination="true"
+        navigation="true"
+        [attr.loop]="producto.imagenes.length > 1 ? 'true' : null">
+
+        <swiper-slide *ngFor="let img of producto.imagenes">
+          <img [src]="img" [alt]="producto.nombre" />
+        </swiper-slide>
+
+      </swiper-container>
+
+    </div>
+
+
+    <div class="info-section">
+      <span class="tipo">{{ producto.tipo }}</span>
+
+      <h1>{{ producto.nombre }}</h1>
+
+      <p class="descripcion">
+        {{ producto.descripcion }}
+      </p>
+
+      <ion-item *ngIf="producto.tallasStock?.length || producto.tallasNumericasStock?.length">
+        <ion-label>Talla</ion-label>
+
+        <ion-select [(ngModel)]="tallaSeleccionada">
+
+          <ion-select-option
+            *ngFor="let t of producto.tallasStock"
+            [value]="t.talla"
+            [disabled]="t.stock <= 0">
+
+            {{ t.talla }}
+
+          </ion-select-option>
+
+          <ion-select-option
+            *ngFor="let t of producto.tallasNumericasStock"
+            [value]="t.tallanumerica"
+            [disabled]="t.stock <= 0">
+
+            {{ t.tallanumerica }}
+
+          </ion-select-option>
+
+        </ion-select>
+
+      </ion-item>
+
+      <div class="color-section" *ngIf="producto.color?.length">
+
+        <p class="color-title">
+          Color:
+          <span>{{ colorSeleccionado }}</span>
+        </p>
+
+        <div class="color-options">
+
+          <div
+            *ngFor="let color of producto.color"
+            class="color-box"
+            [class.selected]="colorSeleccionado === color"
+            [style.background]="obtenerColorHex(color)"
+            (click)="colorSeleccionado = color">
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <p class="precio">
+        {{ producto.precio | currency:'EUR' }}
+      </p>
+
+      <ion-button
+        *ngIf="producto.requiereCita"
+        expand="block"
+        class="btn-secondary"
+        (click)="irReserva()">
+        Reservar cita en tienda
+      </ion-button>
+
+
+      <ion-button
+        *ngIf="!producto.requiereCita"
+        expand="block"
+        class="btn-main"
+        (click)="agregarCarrito()">
+        Añadir al carrito
+      </ion-button>
+    </div>
+
+  </div>
+
+  <ion-spinner *ngIf="!producto" class="loading"></ion-spinner>
+
+</ion-content>
